@@ -13,30 +13,27 @@
 
         <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link href="./css/prettify-1.0.css" rel="stylesheet">
         <link href="./css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/highlight.css">
+        <link href="./css/extra.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
+
+        
     </head>
 
-    <body>
+    <body class="homepage">
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            
 
             <!-- Main title -->
             <a class="navbar-brand" href=".">CS5704 | Project 2 | Group 3</a>
@@ -44,32 +41,16 @@
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            <!-- Main navigation -->
-            <ul class="nav navbar-nav">
             
-            </ul>
 
-            <!-- Search, Navigation and Repo links -->
-            <ul class="nav navbar-nav navbar-right">
-                
-                <li class="disabled">
-                    <a rel="next" >
-                        <i class="fa fa-arrow-left"></i> Previous
-                    </a>
-                </li>
-                <li class="disabled">
-                    <a rel="prev" >
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                
-            </ul>
+            
         </div>
     </div>
 </div>
 
         <div class="container">
-            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
         <li class="main active"><a href="#executive-summary">Executive Summary</a></li>
@@ -94,7 +75,7 @@
         
             <li><a href="#sv-1-systems-interface-description">SV-1: Systems Interface Description</a></li>
         
-            <li><a href="#sv-2-systems-resources-flow-description">SV-2: Systems Resources  Flow Description</a></li>
+            <li><a href="#sv-2-systems-resources-flow-description">SV-2: Systems Resources Flow Description</a></li>
         
             <li><a href="#sv-3-systems-functionality-description">SV-3: Systems Functionality  Description</a></li>
         
@@ -111,12 +92,12 @@
         <li class="main "><a href="#concluding-remarks">Concluding Remarks</a></li>
         
     
-        <li class="main "><a href="#referernces">Referernces</a></li>
+        <li class="main "><a href="#references">References</a></li>
         
     
     </ul>
 </div></div>
-            <div class="col-md-9" role="main">
+                <div class="col-md-9" role="main">
 
 <h2 id="executive-summary">Executive Summary</h2>
 <p>NationalHealthCare.gov is a network-centric software system. Its system architecture is complex and could not be described from a single viewpoint. The Department of Defense Architecture Framework (DoDAF) models are used to create the multiple viewpoints architecture for this system. By using DoDAF models, the system architecture is represented by:</p>
@@ -183,14 +164,28 @@
 <p>The application request and update invoked by the user is sent to the healthcare.gov system.  The healthcare.gov system perform a series of real-time verification as depicted in the figure 3 including verify the social security number to ensure that it is valid, verify the residential address for completeness and deliverability, and verify the employment and income level. The SSN verification is performed using the healthcare.gov services, which uses the SSA data that is sent to the healthcare.gov on a monthly basis.  The address and employment/income verification services are performed in real-time using third-party providers including USPS and Experian. If the verification process is successful, the system will determine and calculate any applicable subsidies that the user is entitled. The result is delivered to the user and the application data is stored in the healthcare.gov database.</p>
 <p>After the user has selected the healthcare plan for purchase, the request is made by the user and sent to the healthcare.gov system as illustrated in figure 3. The healthcare.gov system processes the request including calculating the final cost, apply subsidies, and invoke a third-party cloud-service payment system to conduct the e-commerce transaction. The confirmation result along is returned to the user.
 Users have the ability to create an account on the healthcare.gov website. When the user initiates the request, the healthcare.gov perform a verification process, stores the account information in the data store, emails the user using the cloud service, and returns the result to the user. A similar process occurs when the user logs into the healthcare.gov system. The system authenticates and authorizes the user and logs the user into the system. For a system administrator, the healthcare.gov allows the administrator to update the user’s password and account information as shown in figure 4. The healthcare.gov service emails the updated password to the user while the system stores the information in a data store.</p>
-<p><img alt="Figure 4 - Operational Activity Model (continued) for the Healthcare.gov" src="./figures/figure4.png" /></p>
+<p><a href="./figures/figure4.png" title="Figure 4 - Operational Activity Model (continued) for the Healthcare.gov"><img src="./figures/figure4.png" width="100%" title="Figure 4 - Operational Activity Model (continued) for the Healthcare.gov" alt="Figure 4 - Operational Activity Model (continued) for the Healthcare.gov"></a></p>
 <h2 id="systems-viewpoint">Systems Viewpoint</h2>
 <h3 id="sv-1-systems-interface-description">SV-1: Systems Interface Description</h3>
+<p>The systems design is heavily based on scalable virtual systems. We rely on two types of servers for providing web services. A static web server will be used for serving content that does not require authentication. For example, to access general information about the health care law, the static web server is used.</p>
+<p>All images, css files, java script files and other files are stored on a static files server and is distributed with a content delivery system to ensure faster and more reliable content delivery.</p>
+<p>All systems that store or serve secure information are located within a firewall and have limited access to outside world.</p>
+<p>A web app server provides web services, web interface, mobile web interface and security services. A load balancer launches new instances of the web app if the traffic increases and terminates unnecessary instances.</p>
+<p>Automated services are managed by web worker which is scalable similar to the web app server. The capacity will automatically scale if the volume of tasks increases.</p>
+<p>A queuing service communicate messages between the web app and the web worker. For example, when the user completes an application, a message is added to the queue or processing the application. The worker will read the application processing message from the queue and run it in the background.</p>
+<p>A Redis server is used for caching and performance improvement. Frequently used queries and data are stored with keys and values on the redis server.</p>
+<p>A database cluster with multiple master and slave databases is used to store the data. The master/slave setup allow us to scale the database cluster serving capacity based on the volume of traffics.</p>
+<p>Each component of this setup use TCP network transport protocol to communicate data packets. The ports used for the communication is shown on the diagram.</p>
 <p><a href="./figures/figure5.jpg" title="Figure 5"><img src="./figures/figure5.jpg" width="100%" title="Figure 5" alt="Figure 5"></a></p>
-<h3 id="sv-2-systems-resources-flow-description">SV-2: Systems Resources  Flow Description</h3>
-<p><img alt="Figure 6" src="./figures/figure6.jpg" /></p>
+<h3 id="sv-2-systems-resources-flow-description">SV-2: Systems Resources Flow Description</h3>
+<p>The diagram below shows how the information flows across system resources. The diagram shows how authenticated and unauthenticated requests are directed to different web servers.</p>
+<p>For authenticated server, a complex chain of flow is started based on the type of request.</p>
+<p>The diagram also shows which system is responsible for accessing third party services such as Address Verification Service, etc.</p>
+<p><a href="./figures/figure6.jpg" title="Figure 6"><img src="./figures/figure6.jpg" width="100%" title="Figure 6" alt="Figure 6"></a></p>
 <h3 id="sv-3-systems-functionality-description">SV-3: Systems Functionality  Description</h3>
-<p><img alt="Figure 7" src="./figures/figure7.jpg" /></p>
+<p>This diagram shows which functions are available in each system. For example, the web app includes user registration, login, profile editing and making payments.</p>
+<p>The diagram also shows how each function interact with other functions. For example, the MMQ system is used for queuing messages and web worker uses the queued messages to run scheduled and automated tasks.</p>
+<p><a href="./figures/figure7.jpg" title="Figure 7"><img src="./figures/figure7.jpg" width="100%" title="Figure 7" alt="Figure 7"></a></p>
 <h2 id="services-viewpoint">Services Viewpoint</h2>
 <p>In previous section, we have defined the Operational resources in OV-2. Those resources need to be supported by one or more services. In this section, we continue to architect NationalHealthCare.gov network-centric software system from the services viewpoints.</p>
 <p>With the service viewpoint models, we could identify and associate the service resources to the operational and capability requirements.</p>
@@ -238,16 +233,16 @@ Users have the ability to create an account on the healthcare.gov website. When 
 </li>
 </ul>
 <p>Figure 8 shows the layered architecture of NationalHealthCare.gov</p>
-<p><img alt="Figure 8" src="./figures/figure8.png" /></p>
+<p><a href="./figures/figure8.png" title="Figure 8"><img src="./figures/figure8.png" width="100%" title="Figure 8" alt="Figure 8"></a></p>
 <h4 id="service-integration-planning-and-management">Service Integration Planning and Management</h4>
 <p>Expanding from the conceptual layers viewpoint, the system is made up from multiple service components. There are basic groups of services and the flow of interaction between those groups of services. The services flows are not limited to internal system and application services. The service groups also include the services related to the human interactions and managements.</p>
 <p>Below, figure 9, is the SOA overview of the NationalHealthCare.gov. This diagram shows the basic integration of the service components in the system.</p>
-<p>The network-centric software system consists of the basic service components as seen above in the conceptual layers. ESB is the central component, which controls and interacts with the system services: Database Services, Security Services, Automation Services, UDDI Registry, Web Core Services, and Web Service Interfaces. Over common protocols, the backend web application and the third-party services (external services from the providers) could access and use the central system resource. Similarly, over the same protocols, the administrator could access and use the web system administration services. The frontend users include the assistant/management users and the generic users. Those users could access the web interface using different devices and over the same protocols. The assistant users also manage the assistant services to assist the generic users.</p>
-<p><img alt="Figure 9" src="./figures/figure9.png" /></p>
+<p>The network-centric software system consists of the basic service components as seen above in the conceptual layers. ESB is the central component, which controls and interacts with the system services: Database Services, Security Services, Automation Services, UDDI Registry, Web Core Services, and Web Service Interfaces. Over common protocols, the backend web application and the third-party services (external services from the providers) could access and use the central system resource. Similarly, over the same protocols, the administrator could access and use the web system administration services. The front-end users include the assistant/management users and the generic users. Those users could access the web interface using different devices and over the same protocols. The assistant users also manage the assistant services to assist the generic users.</p>
+<p><a href="./figures/figure9.png" title="Figure 9"><img src="./figures/figure9.png" width="100%" title="Figure 9" alt="Figure 9"></a></p>
 <h4 id="services-context-description">Services Context Description</h4>
 <p>In addition to the basic layers and the integration of basic service components, the detail service context plays an important role in SOA design pattern. It describes the services layout that required for the operations of the system.</p>
 <p>According to the requirement specifications and the Operational View, we have the following services and service components (Figure 10).</p>
-<p><img alt="Figure 10" src="./figures/figure10.png" /></p>
+<p><a href="./figures/figure10.png" title="Figure 10"><img src="./figures/figure10.png" width="100%" title="Figure 10" alt="Figure 10"></a></p>
 <h3 id="svcv-2-service-resource-flow-description">SvcV-2: Service Resource Flow Description</h3>
 <p>By expanding the Service Context Description, we have the services and service flows that described in Figure 11.</p>
 <p>The ESB services provide the core services to coordinate everything happen in the backend of the system. It would process the service request and service reply for accessing or updating the data services and the web core services.</p>
@@ -263,7 +258,7 @@ Users have the ability to create an account on the healthcare.gov website. When 
 <p>While accessing the system, each type of user would have different type of service requests.
 The Web Access Center would coordinate the service request from the users and send the request to the interface components. The interface components would process and decide the service to handle the request from the Web Access Center. After processing, the interface components would send the replies to the Web Access Center; the Web Access Center would process and send the replies to the user’s requests.</p>
 <p>The more detail flows and descriptions could be seen in Figure 11 below:</p>
-<p><img alt="Figure 11" src="./figures/figure11.png" /></p>
+<p><a href="./figures/figure11.png" title="Figure 11"><img src="./figures/figure11.png" width="100%" title="Figure 11" alt="Figure 11"></a></p>
 <h3 id="svcv-4-service-functionality-description">SvcV-4: Service Functionality Description</h3>
 <p>Service Functionality Description describes the functions performed by services and the service data flows among service functions.</p>
 <p>This section identifies and describes the allocation of service functions to resources and the flow of resources between service functions.</p>
@@ -274,10 +269,10 @@ The Web Access Center would coordinate the service request from the users and se
 <p>The External Support services are the group of system services that linked to the service providers. These services provide the support functionalities to the core web application.</p>
 <p>The Infrastructure services, which are provided by cloud service provider and are not in the scope of the current design architecture, provide the base for the whole system.</p>
 <p>The External Consumers services maintain the functionality to support and to work with each type of users.</p>
-<p><img alt="Figure 12" src="./figures/figure12.png" /></p>
+<p><a href="./figures/figure12.png" title="Figure 12"><img src="./figures/figure12.png" width="100%" title="Figure 12" alt="Figure 12"></a></p>
 <p>In detail, the NationalHealthCare.gov network-centric web-based system contains of the following core sets of service functionality:</p>
 <ul>
-<li>Frontend Web Services.</li>
+<li>Front-end Web Services.</li>
 <li>Web-based Core Services.</li>
 <li>Web-based Application Services.<ul>
 <li>Core function Services<ul>
@@ -313,22 +308,30 @@ The Web Access Center would coordinate the service request from the users and se
 </ul>
 </li>
 </ul>
-<p><img alt="Figure 13" src="./figures/figure13.png" /></p>
+<p><a href="./figures/figure13.png" title="Figure 13"><img src="./figures/figure13.png" width="100%" title="Figure 13" alt="Figure 13"></a></p>
 <h2 id="concluding-remarks">Concluding Remarks</h2>
 <p>This ASD describes the operational, system, and service viewpoints of the network-centric software system called NationalHealthCare.gov. The DoDAF models have been used to describe and present the architecture viewpoints of NationalHealthCare.gov system.</p>
 <p>From the different viewpoints, the architecture of the NationalHealthCare.gov system is complex. It is necessary to review the system from those viewpoints in order to prepare for the steps of software engineering.
 The architecture specifications in this document provide the information to continue with the design specifications.</p>
-<h2 id="referernces">Referernces</h2>
+<h2 id="references">References</h2>
 <p><a name="ref1">[1]</a> “Obamacare Bill: Full PPACA &amp; Related Laws." Obamacare Facts. N.p., n.d. Web. 03 March 2015</p>
 <p><a name="ref2">[2]</a> Pickert,Kate.  “Report: Cost of Healthcare.gov Approaching $1 Billion.” Time.  Time n.d. Web. 30 Jul. 2014</p>
 </div>
+            
         </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
 
         
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="./js/bootstrap-3.0.3.min.js"></script>
         <script src="./js/prettify-1.0.min.js"></script>
+        <script src="./js/highlight.pack.js"></script>
         <script src="./js/base.js"></script>
     </body>
 </html>
